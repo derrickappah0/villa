@@ -6,7 +6,7 @@ import Image from "next/image"
 export function WhatsAppButton() {
   const [isHovered, setIsHovered] = useState(false)
 
-  const whatsappNumber = "233XXXXXXXXX" // Replace with actual number
+  const whatsappNumber = "+233208290628" // Replace with actual number
   const whatsappMessage = encodeURIComponent("Hi! I'm interested in learning more about Nandy's Villa Royal.")
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
 

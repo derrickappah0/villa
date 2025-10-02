@@ -17,24 +17,53 @@ const buildRequestSchema = z.object({
 })
 
 export async function POST(request: NextRequest) {
+  console.log('🏗️ [BUILD REQUESTS API] New build request submission received')
+  
   try {
+    console.log('📋 [BUILD REQUESTS API] Parsing request body...')
     const body = await request.json()
-    const validatedData = buildRequestSchema.parse(body)
+    console.log('📝 [BUILD REQUESTS API] Request data received:', {
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      budget: body.budget,
+      location: body.location,
+      propertyType: body.property_type,
+      bedrooms: body.bedrooms,
+      bathrooms: body.bathrooms,
+      timeline: body.timeline,
+      hasSpecialRequirements: !!body.special_requirements
+    })
 
+    console.log('✅ [BUILD REQUESTS API] Validating build request data...')
+    const validatedData = buildRequestSchema.parse(body)
+    console.log('✅ [BUILD REQUESTS API] Data validation successful')
+
+    console.log('💾 [BUILD REQUESTS API] Creating build request in database...')
     const buildRequest = await createBuildRequest({
       ...validatedData,
       status: 'pending',
     })
+    console.log('✅ [BUILD REQUESTS API] Build request created successfully with ID:', buildRequest.id)
 
     // Send email notification to admin
+    console.log('📧 [BUILD REQUESTS API] Initiating email notification...')
     try {
-      await sendBuildRequestNotification(validatedData)
-      console.log('Build request email notification sent successfully')
+      const emailResult = await sendBuildRequestNotification(validatedData)
+      if (emailResult.success) {
+        console.log('✅ [BUILD REQUESTS API] Build request email notification sent successfully:', emailResult.messageId)
+      } else if (emailResult.skipped) {
+        console.log('⚠️ [BUILD REQUESTS API] Build request email notification skipped (no API key configured)')
+      } else {
+        console.warn('❌ [BUILD REQUESTS API] Build request email notification failed:', emailResult.error)
+      }
     } catch (emailError) {
-      console.error('Failed to send build request email notification:', emailError)
+      console.error('💥 [BUILD REQUESTS API] Failed to send build request email notification:', emailError)
+      console.warn('⚠️ [BUILD REQUESTS API] Continuing with request creation despite email failure')
       // Don't fail the request creation if email fails
     }
 
+    console.log('🎉 [BUILD REQUESTS API] Build request submission completed successfully')
     return NextResponse.json(
       { 
         success: true, 
@@ -45,6 +74,7 @@ export async function POST(request: NextRequest) {
     )
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error('❌ [BUILD REQUESTS API] Validation error:', error.errors)
       return NextResponse.json(
         { 
           success: false, 
@@ -55,7 +85,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.error('Error creating build request:', error)
+    console.error('💥 [BUILD REQUESTS API] Critical error creating build request:', error)
+    console.error('🔍 [BUILD REQUESTS API] Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      type: error instanceof Error ? error.constructor.name : typeof error,
+      stack: error instanceof Error ? error.stack : undefined
+    })
+    
     return NextResponse.json(
       { 
         success: false, 

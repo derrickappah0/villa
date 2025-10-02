@@ -12,24 +12,48 @@ const contactMessageSchema = z.object({
 })
 
 export async function POST(request: NextRequest) {
+  console.log('💬 [CONTACT API] New contact message submission received')
+  
   try {
+    console.log('📋 [CONTACT API] Parsing request body...')
     const body = await request.json()
-    const validatedData = contactMessageSchema.parse(body)
+    console.log('📝 [CONTACT API] Request data received:', {
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      subject: body.subject,
+      messageLength: body.message ? body.message.length : 0
+    })
 
+    console.log('✅ [CONTACT API] Validating contact message data...')
+    const validatedData = contactMessageSchema.parse(body)
+    console.log('✅ [CONTACT API] Data validation successful')
+
+    console.log('💾 [CONTACT API] Creating contact message in database...')
     const message = await createContactMessage({
       ...validatedData,
       status: 'unread',
     })
+    console.log('✅ [CONTACT API] Contact message created successfully with ID:', message.id)
 
     // Send email notification to admin
+    console.log('📧 [CONTACT API] Initiating email notification...')
     try {
-      await sendContactMessageNotification(validatedData)
-      console.log('Contact message email notification sent successfully')
+      const emailResult = await sendContactMessageNotification(validatedData)
+      if ((emailResult as any)?.skipped) {
+        console.log('⚠️ [CONTACT API] Contact message email notification skipped (Resend not configured)')
+      } else if ((emailResult as any)?.success) {
+        console.log('✅ [CONTACT API] Contact message email notification sent successfully:', emailResult.messageId)
+      } else {
+        console.warn('⚠️ [CONTACT API] Contact message email notification not successful')
+      }
     } catch (emailError) {
-      console.error('Failed to send contact message email notification:', emailError)
+      console.error('❌ [CONTACT API] Failed to send contact message email notification:', emailError)
+      console.warn('⚠️ [CONTACT API] Continuing with message creation despite email failure')
       // Don't fail the message creation if email fails
     }
 
+    console.log('🎉 [CONTACT API] Contact message submission completed successfully')
     return NextResponse.json(
       { 
         success: true, 
@@ -40,6 +64,7 @@ export async function POST(request: NextRequest) {
     )
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error('❌ [CONTACT API] Validation error:', error.errors)
       return NextResponse.json(
         { 
           success: false, 
@@ -50,7 +75,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.error('Error creating contact message:', error)
+    console.error('💥 [CONTACT API] Critical error creating contact message:', error)
+    console.error('🔍 [CONTACT API] Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      type: error instanceof Error ? error.constructor.name : typeof error,
+      stack: error instanceof Error ? error.stack : undefined
+    })
+    
     return NextResponse.json(
       { 
         success: false, 

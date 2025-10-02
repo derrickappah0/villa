@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email System Test - Nandy's Villa Royal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .button {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background: #5a6fd8;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Email System Test</h1>
+        <p>Use this page to test the email notification system and see detailed console logs.</p>
+        
+        <h2>Test Email Endpoints</h2>
+        <button class="button" onclick="testEmail()">🧪 Test Email System</button>
+        <button class="button" onclick="testAppointment()">📅 Test Appointment Form</button>
+        <button class="button" onclick="testBuildRequest()">🏗️ Test Build Request Form</button>
+        <button class="button" onclick="testContact()">💬 Test Contact Form</button>
+        
+        <div id="result"></div>
+        
+        <h2>📋 Instructions</h2>
+        <ol>
+            <li>Open your browser's Developer Tools (F12)</li>
+            <li>Go to the Console tab</li>
+            <li>Click any test button above</li>
+            <li>Watch the detailed logs in the console</li>
+            <li>Check your terminal/server logs for backend logging</li>
+        </ol>
+        
+        <h2>🔧 Configuration</h2>
+        <p>To enable real email sending:</p>
+        <ol>
+            <li>Get a Resend API key from <a href="https://resend.com" target="_blank">resend.com</a></li>
+            <li>Add to your <code>.env.local</code> file:</li>
+        </ol>
+        <pre style="background: #f8f9fa; padding: 15px; border-radius: 6px; border: 1px solid #dee2e6;">
+RESEND_API_KEY=re_your_api_key_here
+RESEND_FROM_EMAIL=onboarding@resend.dev
+ADMIN_EMAIL=your_email@example.com</pre>
+    </div>
+
+    <script>
+        function showResult(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = `result ${type}`;
+            resultDiv.textContent = message;
+        }
+
+        async function testEmail() {
+            showResult('🧪 Testing email system...', 'info');
+            console.log('🧪 [TEST PAGE] Testing email system...');
+            
+            try {
+                const response = await fetch('/api/test-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                console.log('📧 [TEST PAGE] Email test result:', result);
+                
+                if (result.success) {
+                    showResult(`✅ Test email sent successfully!\nMessage ID: ${result.messageId}\nTime: ${result.timestamp}`, 'success');
+                } else {
+                    showResult(`❌ Test email failed: ${result.message}\nError: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                console.error('💥 [TEST PAGE] Test failed:', error);
+                showResult(`💥 Test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAppointment() {
+            showResult('📅 Testing appointment form...', 'info');
+            console.log('📅 [TEST PAGE] Testing appointment form...');
+            
+            const testData = {
+                name: "Test Customer",
+                email: "test@example.com",
+                phone: "+233 XX XXX XXXX",
+                preferred_date: "2024-10-10",
+                preferred_time: "14:00",
+                property_interest: "buy-home",
+                message: "This is a test appointment booking to verify the email notification system."
+            };
+            
+            try {
+                const response = await fetch('/api/appointments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.json();
+                console.log('📅 [TEST PAGE] Appointment test result:', result);
+                
+                if (result.success) {
+                    showResult(`✅ Appointment booked successfully!\nID: ${result.data.id}\nMessage: ${result.message}`, 'success');
+                } else {
+                    showResult(`❌ Appointment booking failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('💥 [TEST PAGE] Appointment test failed:', error);
+                showResult(`💥 Appointment test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testBuildRequest() {
+            showResult('🏗️ Testing build request form...', 'info');
+            console.log('🏗️ [TEST PAGE] Testing build request form...');
+            
+            const testData = {
+                name: "Test Builder",
+                email: "builder@example.com",
+                phone: "+233 XX XXX XXXX",
+                budget: 500000,
+                location: "Test Location, Ghana",
+                property_type: "single-family",
+                bedrooms: 3,
+                bathrooms: 2,
+                timeline: "6-months",
+                special_requirements: "This is a test build request to verify the email notification system."
+            };
+            
+            try {
+                const response = await fetch('/api/build-requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.json();
+                console.log('🏗️ [TEST PAGE] Build request test result:', result);
+                
+                if (result.success) {
+                    showResult(`✅ Build request submitted successfully!\nID: ${result.data.id}\nMessage: ${result.message}`, 'success');
+                } else {
+                    showResult(`❌ Build request failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('💥 [TEST PAGE] Build request test failed:', error);
+                showResult(`💥 Build request test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testContact() {
+            showResult('💬 Testing contact form...', 'info');
+            console.log('💬 [TEST PAGE] Testing contact form...');
+            
+            const testData = {
+                name: "Test Contact",
+                email: "contact@example.com",
+                phone: "+233 XX XXX XXXX",
+                subject: "general-inquiry",
+                message: "This is a test contact message to verify the email notification system is working properly."
+            };
+            
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.json();
+                console.log('💬 [TEST PAGE] Contact test result:', result);
+                
+                if (result.success) {
+                    showResult(`✅ Contact message sent successfully!\nID: ${result.data.id}\nMessage: ${result.message}`, 'success');
+                } else {
+                    showResult(`❌ Contact message failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('💥 [TEST PAGE] Contact test failed:', error);
+                showResult(`💥 Contact test failed: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

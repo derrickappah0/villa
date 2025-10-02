@@ -15,7 +15,7 @@ const infoItems = [
   {
     icon: Phone,
     title: "Phone",
-    details: ["+233 XX XXX XXXX"],
+    details: ["+233208290628"],
   },
   {
     icon: Mail,

@@ -10,8 +10,8 @@ const contactDetails = [
   {
     icon: Phone,
     title: "Call Us",
-    details: ["+233 XX XXX XXXX", "+233 XX XXX XXXX"],
-    action: "tel:+233XXXXXXXXX",
+    details: ["+233208290628"],
+    action: "tel:+233208290628",
   },
   {
     icon: Mail,

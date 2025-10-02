@@ -9,7 +9,7 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const locations = [
   { name: "Jenna Beach", distance: "5 minutes", icon: Waves },
-  { name: "Wise Sand Beach", distance: "10 minutes", icon: Waves },
+  { name: "White Sand Beach", distance: "10 minutes", icon: Waves },
   { name: "Kasoa Town", distance: "15 minutes", icon: Navigation },
 ]
 
