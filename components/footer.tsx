@@ -48,7 +48,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm">
                 <MapPin size={16} className="mt-0.5 flex-shrink-0" />
-                <span>Near Jenna Beach, Kasoa, Ghana</span>
+                <span>Near Nandy's International School, Kasoa, Ghana</span>
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Phone size={16} className="flex-shrink-0" />
@@ -67,7 +67,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Mail size={16} className="flex-shrink-0" />
-                <span>info@nandysvillaroyal.com</span>
+                <span>nandysvilla.homes@gmail.com</span>
               </li>
             </ul>
           </div>

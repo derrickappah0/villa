@@ -8,9 +8,9 @@ import Link from "next/link"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const locations = [
-  { name: "Jenna Beach", distance: "5 minutes", icon: Waves },
-  { name: "White Sand Beach", distance: "10 minutes", icon: Waves },
-  { name: "Kasoa Town", distance: "15 minutes", icon: Navigation },
+  { name: "Jenna Beach", distance: "20 minutes", icon: Waves },
+  { name: "White Sand Beach", distance: "25 minutes", icon: Waves },
+  { name: "Kasoa Town", distance: "30 minutes", icon: Navigation },
 ]
 
 export function LocationAdvantage() {

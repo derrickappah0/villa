@@ -10,7 +10,7 @@ const infoItems = [
   {
     icon: MapPin,
     title: "Location",
-    details: ["Near Jenna Beach", "Kasoa, Ghana"],
+    details: ["Near Nandy's International School", "Kasoa, Ghana"],
   },
   {
     icon: Phone,
@@ -20,7 +20,7 @@ const infoItems = [
   {
     icon: Mail,
     title: "Email",
-    details: ["info@nandysvillaroyal.com"],
+    details: ["nandysvilla.homes@gmail.com"],
   },
 ]
 

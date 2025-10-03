@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createContactMessage, getContactMessages } from '@/lib/database/queries'
-import { sendContactMessageNotification } from '@/lib/email-service'
 import { z } from 'zod'
 
 const contactMessageSchema = z.object({
@@ -36,21 +35,35 @@ export async function POST(request: NextRequest) {
     })
     console.log('✅ [CONTACT API] Contact message created successfully with ID:', message.id)
 
-    // Send email notification to admin
-    console.log('📧 [CONTACT API] Initiating email notification...')
+    // Send email notification to admin via Edge Function
+    console.log('📧 [CONTACT API] Initiating edge email notification...')
     try {
-      const emailResult = await sendContactMessageNotification(validatedData)
-      if ((emailResult as any)?.skipped) {
-        console.log('⚠️ [CONTACT API] Contact message email notification skipped (Resend not configured)')
-      } else if ((emailResult as any)?.success) {
-        console.log('✅ [CONTACT API] Contact message email notification sent successfully:', emailResult.messageId)
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      if (!supabaseUrl || !anonKey) {
+        console.warn('⚠️ [CONTACT API] Missing Supabase config for edge mailer, skipping email')
       } else {
-        console.warn('⚠️ [CONTACT API] Contact message email notification not successful')
+        const response = await fetch(`${supabaseUrl}/functions/v1/mailer`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${anonKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'contact',
+            data: validatedData,
+          }),
+        })
+        const result = await response.json().catch(() => ({}))
+        if (response.ok && result?.success) {
+          console.log('✅ [CONTACT API] Edge email sent:', result?.messageId)
+        } else {
+          console.warn('⚠️ [CONTACT API] Edge email failed:', result?.error || response.status)
+        }
       }
     } catch (emailError) {
-      console.error('❌ [CONTACT API] Failed to send contact message email notification:', emailError)
+      console.error('❌ [CONTACT API] Failed to send edge email notification:', emailError)
       console.warn('⚠️ [CONTACT API] Continuing with message creation despite email failure')
-      // Don't fail the message creation if email fails
     }
 
     console.log('🎉 [CONTACT API] Contact message submission completed successfully')

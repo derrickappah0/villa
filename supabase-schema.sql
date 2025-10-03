@@ -64,9 +64,8 @@ CREATE TABLE IF NOT EXISTS payment_plans (
 
 -- Insert default payment plans
 INSERT INTO payment_plans (name, description, starting_price, deposit_percentage, interest_rate, duration_months, payment_frequency, features, is_active) VALUES
-('Starter Basic', 'Perfect for first-time buyers with affordable monthly payments', 400000.00, 25.00, 6.00, 30, 'monthly', '["Perfect for first-time buyers", "Low initial deposit", "Affordable monthly payments", "Basic support"]', true),
-('Starter Plus', 'Lower initial deposit with better interest rate', 400000.00, 20.00, 5.50, 36, 'monthly', '["Lower initial deposit", "Better interest rate", "Extended payment period", "Priority support"]', true),
-('Starter Premium', 'Best interest rate with fastest completion', 400000.00, 30.00, 4.50, 24, 'monthly', '["Best interest rate", "Faster completion", "Premium finishes included", "Dedicated support"]', true);
+('Starter Basic', 'Perfect for first-time buyers with affordable monthly payments', 400000.00, 25.00, 5.50, 24, 'monthly', '["Perfect for first-time buyers", "Low initial deposit", "Affordable monthly payments", "Basic support"]', true),
+('Starter Premium', 'Best interest rate with fastest completion', 400000.00, 30.00, 4.50, 12, 'monthly', '["Best interest rate", "Faster completion", "Premium finishes included", "Dedicated support"]', true);
 
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_appointments_created_at ON appointments(created_at DESC);
@@ -141,3 +140,32 @@ CREATE POLICY "Allow authenticated users to read contact messages" ON contact_me
 
 CREATE POLICY "Allow authenticated users to read all payment plans" ON payment_plans
     FOR SELECT USING (auth.role() = 'authenticated');
+
+-- Email templates table for edge mailer
+-- Stores subject/html/text templates per mail type
+CREATE TABLE IF NOT EXISTS email_templates (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    type VARCHAR(50) NOT NULL CHECK (type IN ('appointment','build','contact')),
+    subject_template TEXT NOT NULL,
+    html_template TEXT NOT NULL,
+    text_template TEXT,
+    is_active BOOLEAN DEFAULT true
+);
+
+-- Indexes to quickly find active template by type
+CREATE INDEX IF NOT EXISTS idx_email_templates_type_active ON email_templates(type, is_active);
+CREATE INDEX IF NOT EXISTS idx_email_templates_updated_at ON email_templates(updated_at DESC);
+
+-- Trigger to keep updated_at current
+CREATE TRIGGER update_email_templates_updated_at BEFORE UPDATE ON email_templates
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Enable RLS and keep templates private (edge function uses service role)
+ALTER TABLE email_templates ENABLE ROW LEVEL SECURITY;
+
+-- Optional: allow authenticated admin role to read templates (adjust as needed)
+-- CREATE POLICY "Allow authenticated to read email templates" ON email_templates
+--   FOR SELECT USING (auth.role() = 'authenticated');
+

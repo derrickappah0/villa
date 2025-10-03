@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAppointment, getAppointments } from '@/lib/database/queries'
-import { sendAppointmentNotification } from '@/lib/email-service'
 import { z } from 'zod'
 
 const appointmentSchema = z.object({
@@ -40,21 +39,35 @@ export async function POST(request: NextRequest) {
     })
     console.log('✅ [APPOINTMENTS API] Appointment created successfully with ID:', appointment.id)
 
-    // Send email notification to admin
-    console.log('📧 [APPOINTMENTS API] Initiating email notification...')
+    // Send email notification to admin via Edge Function
+    console.log('📧 [APPOINTMENTS API] Initiating edge email notification...')
     try {
-      const emailResult = await sendAppointmentNotification(validatedData)
-      if ((emailResult as any)?.skipped) {
-        console.log('⚠️ [APPOINTMENTS API] Email notification skipped (Resend not configured)')
-      } else if ((emailResult as any)?.success) {
-        console.log('✅ [APPOINTMENTS API] Email notification sent successfully:', emailResult.messageId)
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      if (!supabaseUrl || !anonKey) {
+        console.warn('⚠️ [APPOINTMENTS API] Missing Supabase config for edge mailer, skipping email')
       } else {
-        console.warn('⚠️ [APPOINTMENTS API] Email notification not successful')
+        const response = await fetch(`${supabaseUrl}/functions/v1/mailer`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${anonKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'appointment',
+            data: validatedData,
+          }),
+        })
+        const result = await response.json().catch(() => ({}))
+        if (response.ok && result?.success) {
+          console.log('✅ [APPOINTMENTS API] Edge email sent:', result?.messageId)
+        } else {
+          console.warn('⚠️ [APPOINTMENTS API] Edge email failed:', result?.error || response.status)
+        }
       }
     } catch (emailError) {
-      console.error('❌ [APPOINTMENTS API] Failed to send email notification:', emailError)
+      console.error('❌ [APPOINTMENTS API] Failed to send edge email notification:', emailError)
       console.warn('⚠️ [APPOINTMENTS API] Continuing with appointment creation despite email failure')
-      // Don't fail the appointment creation if email fails
     }
 
     console.log('🎉 [APPOINTMENTS API] Appointment booking completed successfully')

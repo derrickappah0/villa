@@ -28,34 +28,26 @@ export function PaymentCalculator() {
       {
         name: "Starter Basic",
         deposit: price * 0.25,
-        totalInterest: price * 0.75 * 0.06 * 2.5,
-        totalAmount: 0,
-        monthlyPayment: 0,
-      },
-      {
-        name: "Starter Plus",
-        deposit: price * 0.2,
-        totalInterest: price * 0.8 * 0.055 * 3,
+        totalInterest: price * 0.75 * 0.055 * 2, // 24 months at ~5.5% p.a. example
         totalAmount: 0,
         monthlyPayment: 0,
       },
       {
         name: "Starter Premium",
         deposit: price * 0.3,
-        totalInterest: price * 0.7 * 0.045 * 2,
+        totalInterest: price * 0.7 * 0.045 * 1, // 12 months at 4.5% p.a. example
         totalAmount: 0,
         monthlyPayment: 0,
       },
     ]
 
+    // 24 months for Basic
     plans[0].totalAmount = plans[0].deposit + price * 0.75 + plans[0].totalInterest
-    plans[0].monthlyPayment = (price * 0.75 + plans[0].totalInterest) / 30
+    plans[0].monthlyPayment = (price * 0.75 + plans[0].totalInterest) / 24
 
-    plans[1].totalAmount = plans[1].deposit + price * 0.8 + plans[1].totalInterest
-    plans[1].monthlyPayment = (price * 0.8 + plans[1].totalInterest) / 36
-
-    plans[2].totalAmount = plans[2].deposit + price * 0.7 + plans[2].totalInterest
-    plans[2].monthlyPayment = (price * 0.7 + plans[2].totalInterest) / 24
+    // 12 months for Premium
+    plans[1].totalAmount = plans[1].deposit + price * 0.7 + plans[1].totalInterest
+    plans[1].monthlyPayment = (price * 0.7 + plans[1].totalInterest) / 12
 
     setCalculations(plans)
   }

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createBuildRequest, getBuildRequests } from '@/lib/database/queries'
-import { sendBuildRequestNotification } from '@/lib/email-service'
 import { z } from 'zod'
 
 const buildRequestSchema = z.object({
@@ -46,21 +45,35 @@ export async function POST(request: NextRequest) {
     })
     console.log('✅ [BUILD REQUESTS API] Build request created successfully with ID:', buildRequest.id)
 
-    // Send email notification to admin
-    console.log('📧 [BUILD REQUESTS API] Initiating email notification...')
+    // Send email notification to admin via Edge Function
+    console.log('📧 [BUILD REQUESTS API] Initiating edge email notification...')
     try {
-      const emailResult = await sendBuildRequestNotification(validatedData)
-      if (emailResult.success) {
-        console.log('✅ [BUILD REQUESTS API] Build request email notification sent successfully:', emailResult.messageId)
-      } else if (emailResult.skipped) {
-        console.log('⚠️ [BUILD REQUESTS API] Build request email notification skipped (no API key configured)')
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      if (!supabaseUrl || !anonKey) {
+        console.warn('⚠️ [BUILD REQUESTS API] Missing Supabase config for edge mailer, skipping email')
       } else {
-        console.warn('❌ [BUILD REQUESTS API] Build request email notification failed:', emailResult.error)
+        const response = await fetch(`${supabaseUrl}/functions/v1/mailer`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${anonKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            type: 'build',
+            data: validatedData,
+          }),
+        })
+        const result = await response.json().catch(() => ({}))
+        if (response.ok && result?.success) {
+          console.log('✅ [BUILD REQUESTS API] Edge email sent:', result?.messageId)
+        } else {
+          console.warn('⚠️ [BUILD REQUESTS API] Edge email failed:', result?.error || response.status)
+        }
       }
     } catch (emailError) {
-      console.error('💥 [BUILD REQUESTS API] Failed to send build request email notification:', emailError)
+      console.error('💥 [BUILD REQUESTS API] Failed to send edge email notification:', emailError)
       console.warn('⚠️ [BUILD REQUESTS API] Continuing with request creation despite email failure')
-      // Don't fail the request creation if email fails
     }
 
     console.log('🎉 [BUILD REQUESTS API] Build request submission completed successfully')

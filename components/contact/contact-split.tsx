@@ -5,7 +5,7 @@ const contactDetails = [
   {
     icon: MapPin,
     title: "Visit Us",
-    details: ["Nandy's Villa Royal", "Near Jenna Beach", "Kasoa, Ghana"],
+    details: ["Nandy's Villa Royal", "Near Nandy's International School", "Kasoa, Ghana"],
   },
   {
     icon: Phone,
@@ -16,8 +16,8 @@ const contactDetails = [
   {
     icon: Mail,
     title: "Email Us",
-    details: ["info@nandysvillaroyal.com", "sales@nandysvillaroyal.com"],
-    action: "mailto:info@nandysvillaroyal.com",
+    details: ["nandysvilla.homes@gmail.com"],
+    action: "mailto:nandysvilla.homes@gmail.com",
   },
   {
     icon: Clock,
@@ -75,7 +75,7 @@ export function ContactSplit() {
           {/* Right Side - Map */}
           <div className="h-[500px] rounded-lg overflow-hidden shadow-xl">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.0!2d-0.4!3d5.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNcKwMzAnMDAuMCJOIDDCsDI0JzAwLjAiVw!5e0!3m2!1sen!2sgh!4v1234567890"
+              src="https://www.google.com/maps?q=JP2J%2BVJM%2C%20Kwashieman&hl=en&z=15&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}

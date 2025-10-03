@@ -4,6 +4,7 @@ import { PhotoGallery } from "@/components/home/photo-gallery"
 import { LocationAdvantage } from "@/components/home/location-advantage"
 import { NandysPromise } from "@/components/home/nandys-promise"
 import { CTASection } from "@/components/home/cta-section"
+import { LandSale } from "@/components/home/land-sale"
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <WhatWeOffer />
       <PhotoGallery />
       <LocationAdvantage />
+      <LandSale />
       <NandysPromise />
       <CTASection />
     </main>
