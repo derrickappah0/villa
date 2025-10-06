@@ -8,6 +8,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const pathwayGothic = Pathway_Gothic_One({
   weight: "400",
@@ -47,6 +48,7 @@ export default function RootLayout({
           <Footer />
         </Suspense>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
