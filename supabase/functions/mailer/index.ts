@@ -184,18 +184,24 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({ success: false, error: 'Missing ADMIN_EMAILS function secret' }, 500)
     }
 
-    // Try DB template first; fallback to inline templates
-    let base
-    try {
-      const tmpl = await fetchTemplateFromDb(payload.type)
-      if (tmpl) {
-        base = buildEmailFromDbTemplate(payload, RESEND_FROM_EMAIL, ADMIN_EMAILS, tmpl)
-      } else {
-        base = renderTemplates(payload, RESEND_FROM_EMAIL, ADMIN_EMAILS)
-      }
-    } catch {
-      base = renderTemplates(payload, RESEND_FROM_EMAIL, ADMIN_EMAILS)
+    // Require DB-backed templates only; do not allow inline fallback
+    const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = getSupabaseEnv()
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      return jsonResponse(
+        { success: false, error: 'Missing Supabase service env for templates', details: { SUPABASE_URL: !!SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY: !!SUPABASE_SERVICE_ROLE_KEY } },
+        500
+      )
     }
+
+    const tmpl = await fetchTemplateFromDb(payload.type)
+    if (!tmpl) {
+      return jsonResponse(
+        { success: false, error: 'No active email template found', details: { type: payload.type } },
+        500
+      )
+    }
+
+    const base = buildEmailFromDbTemplate(payload, RESEND_FROM_EMAIL, ADMIN_EMAILS, tmpl)
     const emailData = { ...base, reply_to: payload.options?.reply_to }
 
     const result = await sendViaResend(emailData)
