@@ -5,7 +5,7 @@ const contactDetails = [
   {
     icon: MapPin,
     title: "Visit Us",
-    details: ["Nandy's Villa Royal", "Near Nandy's International School", "Kasoa, Ghana"],
+    details: ["Nandy's Villa Royal", "Near Nandy's International School", " Kwashie-bu, Accra"],
   },
   {
     icon: Phone,

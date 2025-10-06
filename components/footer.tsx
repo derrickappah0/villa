@@ -48,7 +48,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2 text-sm">
                 <MapPin size={16} className="mt-0.5 flex-shrink-0" />
-                <span>Near Nandy's International School, Kasoa, Ghana</span>
+                <span>Near Nandy's International School, Kwashie-bu, Accra</span>
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Phone size={16} className="flex-shrink-0" />
