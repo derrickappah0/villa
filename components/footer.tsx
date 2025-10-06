@@ -52,7 +52,11 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Phone size={16} className="flex-shrink-0" />
-                <span>+233208290628</span>
+                <div className="flex flex-col">
+                  <a href="tel:+233208290628" className="hover:text-primary transition-colors">+233208290628</a>
+                  <a href="tel:+233598997154" className="hover:text-primary transition-colors">+233598997154</a>
+                  <a href="tel:+233200418540" className="hover:text-primary transition-colors">+233200418540</a>
+                </div>
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <WhatsAppIcon className="w-4 h-4 flex-shrink-0" />
