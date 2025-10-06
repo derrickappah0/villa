@@ -27,7 +27,7 @@ export function LocationAdvantage() {
             }`}
           >
             <img
-              src="/map-showing-coastal-area-with-beach-locations-and-.jpg"
+              src="/map.jpg"
               alt="Location Map"
               className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
             />

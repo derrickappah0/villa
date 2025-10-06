@@ -1,77 +1,146 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from "react"
 
 const galleryImages = [
- 
   {
-    src: "/front-gate.jpg",
-    alt: "Front Gate Entrance",
+    src: "/front-gate-main-view.jpeg",
+    alt: "Front gate main entrance",
     title: "Estate Entrance",
     category: "Site",
     className: "col-span-2 row-span-1 md:col-span-3 md:row-span-2",
   },
   {
-    src: "/front-gate-2.jpg",
-    alt: "Front Gate Side View",
+    src: "/front-gate-side-view.jpeg",
+    alt: "Front gate side view",
     title: "Gate View",
     category: "Site",
     className: "col-span-1 row-span-1 md:col-span-2 md:row-span-2",
   },
   {
-    src: "/worker-1.jpg",
-    alt: "Construction Team at Work",
+    src: "/street-view.jpeg",
+    alt: "Access road to the estate",
+    title: "Access Road",
+    category: "Site",
+    className: "col-span-1 row-span-1 md:col-span-2 md:row-span-2",
+  },
+  {
+    src: "/uncompleted-building-1.jpeg",
+    alt: "Blockwork at foundation level",
+    title: "Early Works",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-2.jpeg",
+    alt: "Perimeter fence and units under construction",
+    title: "Row of Units",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-3.jpeg",
+    alt: "Two-storey shell with openings",
+    title: "Structure Shell",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-2 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-4.jpeg",
+    alt: "Terraced units along the slope",
+    title: "Terraces",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-5.jpeg",
+    alt: "Units with roof trusses installed",
+    title: "Roof Trusses",
+    category: "Construction",
+    className: "col-span-2 row-span-1 md:col-span-3 md:row-span-2",
+  },
+  {
+    src: "/uncompleted-building-6.jpeg",
+    alt: "Workers pouring concrete slab",
+    title: "Slab Works",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-7.jpeg",
+    alt: "Columns and blockwork alignment",
+    title: "Structural Columns",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-8.jpeg",
+    alt: "Estate gatehouse and signage",
+    title: "Gatehouse",
+    category: "Site",
+    className: "col-span-1 row-span-1 md:col-span-2 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-9.jpeg",
+    alt: "Ground floor walls in progress",
+    title: "Walling",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/uncompleted-building-10.jpeg",
+    alt: "Completed shells with trusses across row",
+    title: "Progress Row",
+    category: "Construction",
+    className: "col-span-2 row-span-1 md:col-span-3 md:row-span-2",
+  },
+  {
+    src: "/wooden-decken.jpeg",
+    alt: "Worker seated on plywood decking",
+    title: "Decking",
+    category: "Construction",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/worker-1.jpeg",
+    alt: "Team member at work on site",
     title: "Team at Work",
     category: "Construction",
     className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
   },
   {
-    src: "/worker-2.jpg",
-    alt: "Masons Building",
+    src: "/worker-2.jpeg",
+    alt: "Mason laying blocks",
     title: "Block Laying",
     category: "Construction",
     className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
   },
   {
-    src: "/worker-3.jpg",
-    alt: "Site Work Progress",
+    src: "/worker-3.jpeg",
+    alt: "Crew building parapet walls",
     title: "Site Progress",
     category: "Construction",
     className: "col-span-1 row-span-1 md:col-span-2 md:row-span-1",
   },
   {
-    src: "/worker-4.jpg",
-    alt: "Construction Work Ongoing",
+    src: "/worker-4.jpeg",
+    alt: "Workers building at first floor level",
     title: "Ongoing Works",
     category: "Construction",
     className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
   },
-  
   {
-    src: "/552410414_659883090506825_5991757821515039124_n (1).jpg",
-    alt: "Site View",
-    title: "Site View 1",
-    category: "Site",
-    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
-  },
-  {
-    src: "/552685472_1103732058583512_7281198228635200131_n (1).jpg",
-    alt: "Site View",
-    title: "Site View 2",
-    category: "Site",
-    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
-  },
-  {
-    src: "/uncompleted.png",
-    alt: "Uncompleted Estate Entrance",
-    title: "Entrance Works",
+    src: "/worker-5.jpeg",
+    alt: "Team mixing and laying blocks",
+    title: "Team Effort",
     category: "Construction",
-    className: "col-span-2 row-span-1 md:col-span-3 md:row-span-2",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
   },
 ]
 
-export function PhotoGallery() {
+export function PhotoGallery({ showCta = false }: { showCta?: boolean }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
@@ -122,11 +191,16 @@ export function PhotoGallery() {
           ))}
         </div>
 
-        <div className="text-center mt-16 md:mt-20">
-          <button className="px-8 py-4 bg-foreground text-background font-medium rounded-full hover:bg-foreground/90 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-            View Full Portfolio
-          </button>
-        </div>
+        {showCta && (
+          <div className="text-center mt-16 md:mt-20">
+            <Link
+              href="/gallery"
+              className="px-8 py-4 inline-block bg-foreground text-background font-medium rounded-full hover:bg-foreground/90 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
+              View Full Portfolio
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   )

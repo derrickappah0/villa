@@ -53,22 +53,23 @@ export function WhatWeOffer() {
   const imagesByTitle = useMemo(
     () => ({
       "Blocked Structures": [
-        { src: "/luxury-villa-exterior-pool.png", alt: "Modern blocked structure with pool" },
-        { src: "/modern-coastal-luxury-homes-with-palm-trees-and-be.jpg", alt: "Coastal luxury homes" },
-        { src: "/villa-outdoor-terrace-sunset-view.jpg", alt: "Terrace with sunset view" },
+        { src: "/uncompleted-building-3.jpeg", alt: "Two-storey blocked structure shell" },
+        { src: "/uncompleted-building-5.jpeg", alt: "Row of units with roof trusses" },
+        { src: "/uncompleted-building-10.jpeg", alt: "Completed shells along the street" },
       ],
       "Wooden Decking": [
-        { src: "/villa-outdoor-terrace-sunset-view.jpg", alt: "Wooden terrace decking at sunset" },
-        { src: "/luxury-villa-exterior-pool.png", alt: "Decking around pool" },
+        { src: "/wooden-decken.jpeg", alt: "Timber decking in progress" },
+        { src: "/uncompleted-building-6.jpeg", alt: "Crew working around slab/deck area" },
       ],
       "Secured Environment": [
-        { src: "/map-showing-coastal-area-with-beach-locations-and-.jpg", alt: "Gated community map" },
-        { src: "/modern-coastal-luxury-homes-with-palm-trees-and-be.jpg", alt: "Secure neighborhood exterior" },
+        { src: "/map.jpg", alt: "Estate location map" },
+        { src: "/front-gate-main-view.jpeg", alt: "Main entrance gate" },
+        { src: "/front-gate-side-view.jpeg", alt: "Gate side view" },
       ],
       "Family Atmosphere": [
-        { src: "/villa-living-room-with-elegant-furniture.jpg", alt: "Family living room" },
-        { src: "/modern-villa-bedroom-interior.jpg", alt: "Cozy bedroom" },
-        { src: "/modern-villa-kitchen.png", alt: "Spacious family kitchen" },
+        { src: "/uncompleted-building-4.jpeg", alt: "Terraced homes forming a community" },
+        { src: "/uncompleted-building-2.jpeg", alt: "Row of homes fostering neighborhood feel" },
+        { src: "/uncompleted-building-8.jpeg", alt: "Gatehouse and green frontage" },
       ],
     }),
     [],

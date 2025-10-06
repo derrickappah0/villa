@@ -49,8 +49,8 @@ export function BuildForMeHero() {
             }`}
           >
             <img
-              src="/placeholder.svg?key=bnvxz"
-              alt="Home Construction Progress"
+              src="/worker-4.jpeg"
+              alt="Workers building at first floor level"
               className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
             />
           </div>

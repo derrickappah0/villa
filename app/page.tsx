@@ -11,7 +11,7 @@ export default function HomePage() {
     <main className="min-h-screen">
       <HeroSection />
       <WhatWeOffer />
-      <PhotoGallery />
+      <PhotoGallery showCta />
       <LocationAdvantage />
       <LandSale />
       <NandysPromise />
