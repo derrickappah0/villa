@@ -71,7 +71,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Mail size={16} className="flex-shrink-0" />
-                <span>nandysvilla.homes@gmail.com</span>
+                <a href="mailto:nandysvilla.homes@gmail.com" className="hover:text-primary transition-colors">nandysvilla.homes@gmail.com</a>
               </li>
             </ul>
           </div>
