@@ -140,6 +140,129 @@ const galleryImages = [
   },
 ]
 
+// WhatsApp images for 2nd phase section
+const whatsappImages = [
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.15 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.16 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.17 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.19 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.20 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.20 PM (1).jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.21 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.21 PM (1).jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.22 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.22 PM (1).jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.23 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.23 PM (1).jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.24 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.25 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.26 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.26 PM (1).jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "/WhatsApp Image 2025-12-24 at 8.43.27 PM.jpeg",
+    alt: "2nd phase construction progress",
+    title: "Phase 2 Progress",
+    category: "2nd Phase",
+    className: "col-span-1 row-span-1 md:col-span-1 md:row-span-1",
+  },
+]
+
 export function PhotoGallery({ showCta = false }: { showCta?: boolean }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
@@ -189,6 +312,51 @@ export function PhotoGallery({ showCta = false }: { showCta?: boolean }) {
               <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-2xl transition-all duration-500" />
             </div>
           ))}
+        </div>
+
+        {/* 2nd Phase Section */}
+        <div className="mt-24 md:mt-32">
+          <div className="max-w-4xl mb-16 md:mb-24">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif mb-6 text-balance leading-tight">
+              2nd Phase
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl text-pretty leading-relaxed">
+              Latest progress updates from our ongoing construction phase
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 lg:gap-6 auto-rows-[180px] md:auto-rows-[200px] lg:auto-rows-[220px]">
+            {whatsappImages.map((image, index) => (
+              <div
+                key={`whatsapp-${index}`}
+                className={`relative overflow-hidden rounded-2xl group cursor-pointer ${image.className}`}
+                onMouseEnter={() => setHoveredIndex(galleryImages.length + index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <Image
+                  src={image.src || "/placeholder.svg"}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:brightness-75"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
+
+                <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+                  <div className="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                    <p className="text-xs md:text-sm font-medium tracking-widest uppercase text-white/80 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      {image.category}
+                    </p>
+                    <h3 className="text-xl md:text-2xl lg:text-3xl font-serif text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-150">
+                      {image.title}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-2xl transition-all duration-500" />
+              </div>
+            ))}
+          </div>
         </div>
 
         {showCta && (
